@@ -1,0 +1,40 @@
+[
+  {
+    "_id": "5f61dfb231aecfc968d667d7",
+    "name": "Sharpsburg",
+    "placeid": "4491086",
+    "geometry": {
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          -77.82915,
+          35.8671
+        ]
+      }
+    },
+    "geoContainers": [
+      "6252001",
+      "4482348",
+      "4481511"
+    ],
+    "type": "City"
+  },
+  {
+    "_id": "5f61e01e31aecfc968d9ba6e",
+    "name": "Nash County",
+    "placeid": "4481511",
+    "type": "SecondLevelNationAdministrativeDivision"
+  },
+  {
+    "_id": "5f61e02e31aecfc968da53f3",
+    "name": "North Carolina",
+    "placeid": "4482348",
+    "type": "FirstLevelNationAdministrativeDivision"
+  },
+  {
+    "_id": "5f61de5d31aecfc968d54a41",
+    "name": "United States",
+    "placeid": "6252001",
+    "type": "Country"
+  }
+]

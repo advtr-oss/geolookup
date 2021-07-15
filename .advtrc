@@ -1,0 +1,13 @@
+version: '1.0'
+
+services:
+  binary:
+    name: geolookup
+    dockerfile: .
+    default_tag: development
+    build_arguments:
+      - NPM_TOKEN=npm
+    rm: true
+
+registry:
+  docker:
