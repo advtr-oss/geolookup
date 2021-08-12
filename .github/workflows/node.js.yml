@@ -8,12 +8,12 @@ on:
     tags:
       - 'v*.*.*'
     branches:
-      - master
+      - main
       - 'releases/**'
     paths-ignore:
       - 'README.md'
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
     paths-ignore:
       - 'README.md'
 
