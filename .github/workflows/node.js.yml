@@ -58,10 +58,6 @@ jobs:
         run: |
           echo "prefix=-${{ matrix.prefix }}" >> $GITHUB_ENV
           echo "path=./plugins/${{ matrix.prefix }}/Dockerfile" >> $GITHUB_ENV
-#      - name: Prefix Builder
-#        if: ${{ matrix.prefix == '' }}
-#        run: |
-#          echo "path=./Dockerfile" >> $GITHUB_ENV
       - name: Docker meta
         id: meta
         uses: crazy-max/ghaction-docker-meta@v2
