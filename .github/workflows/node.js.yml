@@ -46,6 +46,16 @@ jobs:
     if: "!contains(github.event.commits[0].message, '[skip ci]')"
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        include:
+          - prefix: 'mock-'
+            path: './plugins/mock/Dockerfile'
+          - prefix: 'zipkin-'
+            path: './plugins/zipkin/Dockerfile'
+          - prefix: ''
+            path: './Dockerfile'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -62,6 +72,8 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
+          flavour: |
+            prefix=${{ matrix.prefix }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -75,6 +87,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          file: ${{ matrix.path }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
