@@ -48,13 +48,7 @@ jobs:
 
     strategy:
       matrix:
-        include:
-          - prefix: 'mock'
-            path: './plugins/mock/Dockerfile'
-          - prefix: 'zipkin'
-            path: './plugins/zipkin/Dockerfile'
-          - prefix: ''
-            path: './Dockerfile'
+        prefix: ['', 'mock', 'zipkin']
 
     steps:
       - name: Checkout
@@ -63,6 +57,11 @@ jobs:
         if: ${{ matrix.prefix != '' }}
         run: |
           echo "prefix=-${{ matrix.prefix }}" >> $GITHUB_ENV
+          echo "path=./plugins/${{ matrix.prefix }}/Dockerfile" >> $GITHUB_ENV
+#      - name: Prefix Builder
+#        if: ${{ matrix.prefix == '' }}
+#        run: |
+#          echo "path=./Dockerfile" >> $GITHUB_ENV
       - name: Docker meta
         id: meta
         uses: crazy-max/ghaction-docker-meta@v2
@@ -91,7 +90,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ${{ matrix.path }}
+          file: ${{ env.path }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
