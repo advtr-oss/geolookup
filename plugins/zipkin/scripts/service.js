@@ -51,7 +51,7 @@ module.exports = async (filePath, parser, options = defaultOptions) => {
     body.program.body[0].expression.right.body.body.splice(idx, 0, property)
   }
 
-  let index;
+  let index
   ast.program.body[0].expression.right.body.body.forEach((node, idx) => {
     if (node.type === 'ExpressionStatement' && node.expression.type === 'CallExpression') {
       try {

@@ -127,6 +127,7 @@ function createElasticContext (config, elastic) {
 
   const ctx = {
     node: config.get('elastic-uri'),
+    Connection: require('../../utils/zipkin').Connection(),
 
     // Could maybe name this host instead??
     name: config.get('name'),
