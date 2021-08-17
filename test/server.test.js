@@ -13,7 +13,7 @@ const expect = chai.expect
 chai.use(chaiHttp)
 
 describe('server', function () {
-  let config;
+  let config
 
   before(function () {
     // Have to load this first, any subsequent
@@ -27,7 +27,7 @@ describe('server', function () {
   })
 
   describe('/', function () {
-    let server;
+    let server
 
     before(function () {
       server = app(config)
@@ -40,11 +40,11 @@ describe('server', function () {
       expect(res).to.be.json
       expect(res.body.name).to.be.eq(name)
       expect(res.body.version).to.be.eq(version)
-    });
-  });
+    })
+  })
 
   describe('404', function () {
-    let server;
+    let server
 
     before(function () {
       server = app(config)
@@ -55,14 +55,14 @@ describe('server', function () {
 
       expect(res).status(404)
       expect(res).to.be.json
-    });
-  });
+    })
+  })
 
   /**
    * This isn't 100% right due to how config works
    * */
   describe('health-check', function () {
-    let app;
+    let app
 
     before(function () {
       const config = requireInject('../src/config')
@@ -75,11 +75,11 @@ describe('server', function () {
       // Use one of the most known ip address so not to dox anyone
       const res = await chai.request(app).get('/_internal_/health')
       expect(res).to.have.status(200)
-    });
-  });
+    })
+  })
 
   describe('custom base route', function () {
-    let app;
+    let app
 
     before(function () {
       const config = requireInject('../src/config')
@@ -100,7 +100,7 @@ describe('server', function () {
   })
 
   describe('default values', function () {
-    let config;
+    let config
 
     before(function () {
       config = requireInject('../src/config')
@@ -113,4 +113,4 @@ describe('server', function () {
       expect(() => require('../src/app')(config)).to.not.throw()
     })
   })
-});
+})

@@ -14,7 +14,7 @@ const expect = chai.expect
 chai.use(chaiHttp)
 
 describe('search', function () {
-  let app;
+  let app
 
   before('initialisation', async function () {
     // Default app with config

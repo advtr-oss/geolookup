@@ -96,3 +96,4 @@ jobs:
             SOURCE_COMMIT=${{ github.sha }}
             SOURCE_BRANCH=${{ github.ref }}
             CI=github
+            PLUGIN_PATH=${{env.path}}

@@ -61,7 +61,7 @@ module.exports = (ctx) => {
   })
 
   // Setup error handling
-  let handler = erred({ stack: false })
+  const handler = erred({ stack: false })
   handler.use(elasticErrorHandler)
   app.use(handler)
 

@@ -23,6 +23,5 @@ process.on('timeEnd', (name) => {
 
     log.timing(name, ctx, `Completed in ${ms}ms`)
     timings.delete(name)
-  } else
-    log.silly('timing', "Tried to end timer that doesn't exist:", name)
+  } else { log.silly('timing', "Tried to end timer that doesn't exist:", name) }
 })

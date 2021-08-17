@@ -41,8 +41,7 @@ module.exports = (err) => {
     console.error(err.stack || err.message)
   }
 
-  if (exitCalled)
-    err = err || new Error('Callback called more than once.')
+  if (exitCalled) { err = err || new Error('Callback called more than once.') }
 
   exitCalled = true
   if (!err) return exit(0)
@@ -54,9 +53,9 @@ module.exports = (err) => {
     return exit(1)
   }
 
-  const m = err.code || err.message.match(/^(?:Error: )?(E[A-Z]+)/);
+  const m = err.code || err.message.match(/^(?:Error: )?(E[A-Z]+)/)
   if (m && !err.code) {
-    err.code = m;
+    err.code = m
   } else if (err.name && !err.code) {
     err.code = err.name
   }
@@ -66,19 +65,19 @@ module.exports = (err) => {
    * */
   const context = {}
   ;['type', 'stack', 'statusCode'].forEach(function (k) {
-    const v = err[k];
-    if (!v) return;
+    const v = err[k]
+    if (!v) return
     context[k] = v
-  });
+  })
 
-  context['cwd'] = process.cwd()
-  context['os'] = {
-    'type': os.type(),
-    'release': os.release()
+  context.cwd = process.cwd()
+  context.os = {
+    type: os.type(),
+    release: os.release()
   }
 
-  context['argv'] = process.argv.map(JSON.stringify).join(' ')
-  context['node'] = process.version
+  context.argv = process.argv.map(JSON.stringify).join(' ')
+  context.node = process.version
   context[name] = version
 
   ;[
@@ -88,13 +87,13 @@ module.exports = (err) => {
     'path',
     'dest',
     'errno'
-  ].forEach(function(k) {
-    const v = err[k];
-    if (!v) return;
+  ].forEach(function (k) {
+    const v = err[k]
+    if (!v) return
     context[k] = v
-  });
+  })
 
-  const msg = message(err);
+  const msg = message(err)
   log.error('error.handler', context, msg)
   return exit(1)
 }

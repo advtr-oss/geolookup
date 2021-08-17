@@ -10,7 +10,7 @@ module.exports = Object.assign({}, {
   },
   search: async (req, res, next) => {
     // These are handled by the validation tool
-    let { query, location, sessiontoken } = req.query
+    const { query, location, sessiontoken } = req.query
 
     try {
       const results = await autocompleteService.search(query, location, null)
@@ -20,7 +20,7 @@ module.exports = Object.assign({}, {
         results
       })
     } catch (err) {
-      log.error('controller:search', { trace: req.id, status: err.status, sessiontoken}, err.message)
+      log.error('controller:search', { trace: req.id, status: err.status, sessiontoken }, err.message)
       return next(err)
     }
   }

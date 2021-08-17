@@ -1,13 +1,13 @@
 const config = require('../config')
 
-module.exports = message;
+module.exports = message
 
-function message(err) {
-  let message;
+function message (err) {
+  let message
 
   const bind = typeof config.get('port') === 'string'
     ? `Pipe ${config.get('port')}`
-    : `Port ${config.get('port')}`;
+    : `Port ${config.get('port')}`
 
   switch (err.code) {
     case 'MongoServerSelectionError':
@@ -29,7 +29,7 @@ function message(err) {
         '    `$ docker container run -p "27017:27017" --name mongodb --rm mongo`',
         'And attempt a restart'
       ].join('\n')
-      break;
+      break
     case 'EADDRINUSE':
       message = [
         err.message,
@@ -42,11 +42,11 @@ function message(err) {
         'Any other issues check',
         '    <https://stackoverflow.com/q/4075287/7031674>',
         ''
-      ].join('\n');
-      break;
+      ].join('\n')
+      break
     default:
       message = err.message
-      break;
+      break
   }
 
   return message

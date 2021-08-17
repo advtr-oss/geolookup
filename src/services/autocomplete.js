@@ -6,7 +6,7 @@ const { BadRequest, NoContent } = require('@hndlr/errors')
 
 const elastic = require('../dao/elastic')
 
-function Autocomplete() {}
+function Autocomplete () {}
 
 /**
  * Generate the search body and query the index

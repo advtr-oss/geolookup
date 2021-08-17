@@ -9,7 +9,7 @@
  * @async
  * */
 module.exports = async (namespace, fn) => {
-  let data, err;
+  let data, err
 
   process.emit('time', namespace)
   try {

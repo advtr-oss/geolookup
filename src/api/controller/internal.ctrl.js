@@ -3,7 +3,7 @@ const config = require('../../config')
 const build = require('../../config/build')
 const elasticsearch = require('../../dao/elastic')
 
-module.exports = Object.assign({} , {
+module.exports = Object.assign({}, {
   home: (req, res, next) => {
     return res.status(200).json({
       name: config.get('name'),

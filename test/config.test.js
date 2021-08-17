@@ -7,7 +7,7 @@ const expect = chai.expect
 
 describe('config', function () {
   describe('env-vars', function () {
-    let env;
+    let env
 
     before(function () {
       env = process.env
@@ -23,12 +23,12 @@ describe('config', function () {
       config.load()
 
       expect(config.get('port')).to.be.eq(9000)
-    });
-  });
+    })
+  })
 
   // This will revert to a default value
   describe('invalid types', function () {
-    let argv;
+    let argv
 
     before(function () {
       argv = process.argv
@@ -44,8 +44,8 @@ describe('config', function () {
       config.load()
 
       expect(config.get('elastic-uri')).to.be.eq(config.get('elastic-uri', 'default'))
-    });
-  });
+    })
+  })
 
   describe('default values', function () {
     it('should load a correct var', function () {
@@ -53,6 +53,6 @@ describe('config', function () {
       config.load()
 
       expect(config.get('name')).to.be.eq(pkgName)
-    });
-  });
+    })
+  })
 })

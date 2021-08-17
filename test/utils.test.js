@@ -23,7 +23,6 @@ chai.use(chaiHttp)
 chai.use(chaiPromise)
 
 describe('utils', function () {
-
   // Might move this to a dependency
   describe('promiseAllCallback', function () {
     describe('promise', function () {
@@ -33,15 +32,15 @@ describe('utils', function () {
         })
 
         expect(returnValue).to.be.true
-      });
+      })
 
       it('should throw the error', function (done) {
         const throwing = promiseOrCallback(null, (cb) => {
           cb(new Error('Throwing'))
         })
 
-        expect(throwing).to.be.rejected.and.notify(done);
-      });
+        expect(throwing).to.be.rejected.and.notify(done)
+      })
 
       it('should have multiple then arguments', async function () {
         const returnValue = await promiseOrCallback(null, (cb) => {
@@ -49,8 +48,8 @@ describe('utils', function () {
         })
 
         expect(returnValue).to.instanceOf(Array)
-      });
-    });
+      })
+    })
 
     describe('callback', function () {
       it('should have return null error', function (done) {
@@ -62,7 +61,7 @@ describe('utils', function () {
         promiseOrCallback(callback, (cb) => {
           cb(null, true)
         })
-      });
+      })
 
       it('should have return error', function (done) {
         const callback = (error, value) => {
@@ -73,8 +72,8 @@ describe('utils', function () {
         promiseOrCallback(callback, (cb) => {
           cb(new Error('error'))
         })
-      });
-    });
+      })
+    })
 
     describe('error-emitter', function () {
       it('should emit error', function (done) {
@@ -89,7 +88,7 @@ describe('utils', function () {
         promiseOrCallback(callback, (cb) => {
           cb(new Error('error'))
         }, emitter)
-      });
+      })
 
       it('should emit error with promise', function (done) {
         const emitter = new EventEmitter()
@@ -104,14 +103,14 @@ describe('utils', function () {
         promiseOrCallback(null, (cb) => {
           cb(new Error('error'))
         }, emitter).then(fail).catch(callback)
-      });
-    });
-  });
+      })
+    })
+  })
 
   // Predefined in the mock
   describe('elastic.health', function () {
     /** @type {Elastic}, @type {Config} */
-    let elastic, config;
+    let elastic, config
     before(function () {
       // Default app with config
       config = requireInject('../src/config')
@@ -129,6 +128,6 @@ describe('utils', function () {
     it('should return the mock', async function () {
       const response = await elastic.connect(config).health()
       expect(response.body.status).to.be.eq('yellow')
-    });
-  });
-});
+    })
+  })
+})

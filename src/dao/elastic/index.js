@@ -45,12 +45,12 @@ Elastic.prototype.connect = function (config = globalConfig) {
 
   this[_client].on('request', (err, result) => {
     const { meta } = result
-    log.verbose(`elastic.emit.request`, { connection: meta.connection.id, status: meta.connection.status, trace: id() }, 'starting a new request')
+    log.verbose('elastic.emit.request', { connection: meta.connection.id, status: meta.connection.status, trace: id() }, 'starting a new request')
   })
 
   this[_client].on('response', (err, result) => {
     const { meta } = result
-    log.verbose(`elastic.emit.response`, { connection: meta.connection.id, status: meta.connection.status, trace: id() }, 'response received')
+    log.verbose('elastic.emit.response', { connection: meta.connection.id, status: meta.connection.status, trace: id() }, 'response received')
   })
 
   this[_client].on('resurrect', (err, result) => {
@@ -70,9 +70,9 @@ Elastic.prototype.connect = function (config = globalConfig) {
  * @return [Promise]
  * */
 Elastic.prototype.health = function (callback) {
-  const self = this;
+  const self = this
   return promiseOrCallback(callback, (cb) => {
-    time(`elastic.health`, () => self[_client].cluster.health())
+    time('elastic.health', () => self[_client].cluster.health())
       .then((value) => cb(null, value)).catch(cb)
   })
 }
@@ -88,10 +88,10 @@ Elastic.prototype.health = function (callback) {
  * @param {Function} [callback]
  * @return [Promise]
  * */
-Elastic.prototype.search = function(request, callback) {
-  const self = this;
+Elastic.prototype.search = function (request, callback) {
+  const self = this
   return promiseOrCallback(callback, (cb) => {
-    time(`elastic.search`, async function() {
+    time('elastic.search', async function () {
       const results = await self[_client].search({
         index: self.ctx.index,
         body: request
@@ -133,15 +133,14 @@ function createElasticContext (config, elastic) {
     index: config.get('elastic-index'),
     log: config.get('loglevel'),
     generateRequestId: (params, options) => {
-      let reqID = id()
+      const reqID = id()
       if (reqID) return reqID
       return nanoid()
     },
     auth
   }
 
-  if (!!elastic.$_connection) ctx.Connection = elastic.$_connection
+  if (elastic.$_connection) ctx.Connection = elastic.$_connection
 
   return ctx
 }
-
