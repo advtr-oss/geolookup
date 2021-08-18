@@ -30,7 +30,7 @@ const defaultOptions = {
  * @param {ConfigOptions} opts
  * */
 module.exports = async (filePath, parser, opts = defaultOptions) => {
-  const options = { ...defaultOptions, ...opts,  }
+  const options = { ...defaultOptions, ...opts }
 
   // Lookup and parse the original config code
   const code = (await fs.readFile(filePath)).toString()

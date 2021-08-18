@@ -14,7 +14,7 @@ const elasticErrorHandler = require('./utils/erred-elastic')
 /**
  * @param {Config} ctx
  * */
-module.exports = (ctx) => {
+module.exports = ctx => {
   const app = express()
 
   app.use(zipkin.express())

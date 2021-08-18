@@ -32,7 +32,7 @@ const defaultOptions = {
  * @param {ConfigOptions} opts
  * */
 module.exports = async (filePath, parser, opts = defaultOptions) => {
-  const options = { ...defaultOptions, ...opts,  }
+  const options = { ...defaultOptions, ...opts }
 
   // Lookup and parse the original config code
   const code = (await fs.readFile(filePath)).toString()
@@ -40,8 +40,8 @@ module.exports = async (filePath, parser, opts = defaultOptions) => {
 
   const inserted = {}
   visit(ast, {
-    visitVariableDeclaration(path) {
-      const node = path.node;
+    visitVariableDeclaration (path) {
+      const node = path.node
       this.traverse(path)
 
       if (node.declarations[0].id.name === 'log') {
@@ -55,8 +55,8 @@ module.exports = async (filePath, parser, opts = defaultOptions) => {
         )
       }
     },
-    visitExpressionStatement(path) {
-      const node = path.node;
+    visitExpressionStatement (path) {
+      const node = path.node
       this.traverse(path)
 
       if (node?.expression?.callee?.object?.name === 'app' && !('middleware' in inserted)) {

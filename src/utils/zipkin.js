@@ -32,7 +32,7 @@ class Zipkin {
     const zipkin = config.get('zipkin')
     if (!zipkin) throw new Error(`Invalid zipkin configuration, if in docker please use '${this.localService}:main'`)
 
-    this.recorder = typeof zipkin === 'string' ?  new BatchRecorder({
+    this.recorder = typeof zipkin === 'string' ? new BatchRecorder({
       logger: new HttpLogger({
         endpoint: `${zipkin}/api/v2/spans`,
         jsonEncoder: JSON_V2, // JSON encoder to use. Optional (defaults to JSON_V1)
@@ -40,17 +40,16 @@ class Zipkin {
         timeout: 1000,
         agent: new (require('http').Agent)({ keepAlive: true })
       })
-    }): new ConsoleRecorder()
+    }) : new ConsoleRecorder()
   }
 
-  express() {
+  express () {
     return require('zipkin-instrumentation-express').expressMiddleware({ tracer: this.tracer })
   }
 
-  Connection() {
+  Connection () {
     return require('./zipkin-connection')({ tracer: this.tracer, remoteServiceName: 'elasticsearch' })
   }
-
 }
 
 module.exports = new Zipkin()

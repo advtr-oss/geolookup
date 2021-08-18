@@ -36,8 +36,8 @@ module.exports = Object.assign({}, {
    * */
   method: (klass, method, ...args) => {
     // The klass could be anything, even multiple items with dot notation
-    const klassIdentifier = typeof klass === 'string' ? b.identifier(klass) : klass,
-      methodIdentifier = b.identifier(method)
+    const klassIdentifier = typeof klass === 'string' ? b.identifier(klass) : klass
+    const methodIdentifier = b.identifier(method)
 
     return b.callExpression(
       b.memberExpression(klassIdentifier, methodIdentifier, false),
