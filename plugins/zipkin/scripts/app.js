@@ -1,7 +1,7 @@
 const { promises: fs } = require('fs')
 
 const recast = require('recast')
-const { builders: b, namedTypes: n } = recast.types
+const { builders: b, namedTypes: n, visit } = recast.types
 
 const utils = require('./utils')
 
@@ -38,32 +38,43 @@ module.exports = async (filePath, parser, opts = defaultOptions) => {
   const code = (await fs.readFile(filePath)).toString()
   const ast = recast.parse(code, { parser })
 
-  const zipkinDeclaration = utils.require('./utils/zipkin')
-  const zipkinCallee = b.expressionStatement(
-    utils.method(zipkinDeclaration, 'initialise', b.identifier('config'))
-  )
-  /**
-   * Add the required property
-   * @param {Node} body
-   * @param {Node} property
-   * @param {Number} idx
-   * */
-  const add = (body, property, idx) => {
-    body.program.body[0].expression.right.body.body.splice(idx, 0, property)
-  }
+  const inserted = {}
+  visit(ast, {
+    visitVariableDeclaration(path) {
+      const node = path.node;
+      this.traverse(path)
 
-  let index
-  ast.program.body[0].expression.right.body.body.forEach((node, idx) => {
-    if (node.type === 'ExpressionStatement' && node.expression.type === 'CallExpression') {
-      try {
-        if (node.expression.arguments[0].value === './utils/perf') index = idx
-      } catch (e) { }
+      if (node.declarations[0].id.name === 'log') {
+        options.logger && options.logger(`==> Adding zipkin import @ ${filePath}`)
+
+        path.insertAfter(
+          utils.requireDeclaration(
+            utils.require('./utils/zipkin'),
+            'zipkin'
+          )
+        )
+      }
+    },
+    visitExpressionStatement(path) {
+      const node = path.node;
+      this.traverse(path)
+
+      if (node?.expression?.callee?.object?.name === 'app' && !('middleware' in inserted)) {
+        options.logger && options.logger(`==> Adding zipkin middleware @ ${filePath}`)
+
+        path.insertBefore(
+          b.expressionStatement(
+            utils.method(
+              'app',
+              'use',
+              utils.method('zipkin', 'express')
+            )
+          )
+        )
+        inserted.middleware = true
+      }
     }
   })
-
-  if (index) {
-    add(ast, zipkinCallee, index + 1)
-  }
 
   // If it's just a dry run should exit
   if (options.dryRun) {

@@ -27,10 +27,10 @@ const defaultOptions = {
 /**
  * @param {PathLike} filePath
  * @param {Parser} parser
- * @param {ConfigOptions} options
+ * @param {ConfigOptions} opts
  * */
-module.exports = async (filePath, parser, options = defaultOptions) => {
-  options = Object.assign({}, options, defaultOptions)
+module.exports = async (filePath, parser, opts = defaultOptions) => {
+  const options = { ...defaultOptions, ...opts,  }
 
   // Lookup and parse the original config code
   const code = (await fs.readFile(filePath)).toString()
@@ -38,7 +38,7 @@ module.exports = async (filePath, parser, options = defaultOptions) => {
 
   // Create the new AST
   const zipkin = b.identifier('zipkin')
-  const types = ['Boolean', 'String']
+  const types = ['String', 'Boolean']
   const properties = {
     types: b.property('init', zipkin, b.arrayExpression(types.map(b.identifier))), // zipkin: [Boolean, String]
     defaults: b.property('init', zipkin, b.literal(true)) // zipkin: true
