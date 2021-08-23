@@ -2,8 +2,7 @@ const { promises: fs } = require('fs')
 
 const recast = require('recast')
 const { builders: b, namedTypes: n, visit } = recast.types
-
-const utils = require('./utils')
+const { functions, utils: { identifier }, variable } = require('@harrytwright/ast-types-wrapper')
 
 /**
  * @typedef {Object} Parser
@@ -48,10 +47,7 @@ module.exports = async (filePath, parser, opts = defaultOptions) => {
         options.logger && options.logger(`==> Adding zipkin import @ ${filePath}`)
 
         path.insertAfter(
-          utils.requireDeclaration(
-            utils.require('./utils/zipkin'),
-            'zipkin'
-          )
+          variable.req('zipkin', './utils/zipkin')
         )
       }
     },
@@ -64,10 +60,13 @@ module.exports = async (filePath, parser, opts = defaultOptions) => {
 
         path.insertBefore(
           b.expressionStatement(
-            utils.method(
+            functions.method(
               'app',
               'use',
-              utils.method('zipkin', 'express')
+              functions.method(
+                'zipkin',
+                'express'
+              )
             )
           )
         )

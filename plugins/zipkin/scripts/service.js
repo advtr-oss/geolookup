@@ -2,8 +2,7 @@ const { promises: fs } = require('fs')
 
 const recast = require('recast')
 const { builders: b, namedTypes: n } = recast.types
-
-const utils = require('./utils')
+const { functions, utils: { identifier } } = require('@harrytwright/ast-types-wrapper')
 
 /**
  * @typedef {Object} Parser
@@ -38,10 +37,11 @@ module.exports = async (filePath, parser, opts = defaultOptions) => {
   const code = (await fs.readFile(filePath)).toString()
   const ast = recast.parse(code, { parser })
 
-  const zipkinDeclaration = utils.require('./utils/zipkin')
-  const zipkinCallee = b.expressionStatement(
-    utils.method(zipkinDeclaration, 'initialise', b.identifier('config'))
-  )
+  const zipkinCallee = b.expressionStatement(functions.method(
+    functions.req('./utils/zipkin'),
+    'initialise',
+    identifier('config')
+  ))
   /**
    * Add the required property
    * @param {Node} body

@@ -2,6 +2,7 @@ const { promises: fs } = require('fs')
 
 const recast = require('recast')
 const { builders: b } = recast.types
+const { functions, utils: { identifier }, object } = require('@harrytwright/ast-types-wrapper')
 
 /**
  * @typedef {Object} Parser
@@ -37,11 +38,10 @@ module.exports = async (filePath, parser, opts = defaultOptions) => {
   const ast = recast.parse(code, { parser })
 
   // Create the new AST
-  const zipkin = b.identifier('zipkin')
   const types = ['String', 'Boolean']
   const properties = {
-    types: b.property('init', zipkin, b.arrayExpression(types.map(b.identifier))), // zipkin: [Boolean, String]
-    defaults: b.property('init', zipkin, b.literal(true)) // zipkin: true
+    types: object.property('zipkin', b.arrayExpression(types.map(identifier))), // zipkin: [Boolean, String]
+    defaults: object.property('zipkin', true) // zipkin: true
   }
 
   /**

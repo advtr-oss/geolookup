@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@elastic/elasticsearch-mock": "^0.3.0",
+    "@harrytwright/ast-types-wrapper": "^0.0.1-beta.1",
     "ast-types": "^0.14.2",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
