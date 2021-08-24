@@ -42,7 +42,7 @@ jobs:
       - name: Prefix Builder
         if: ${{ matrix.prefix != '' }}
         run: |
-          bash "${{ matrix.prefix }}/build.sh"
+          bash "./plugins/${{ matrix.prefix }}/build.sh"
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - run: npm run build --if-present
