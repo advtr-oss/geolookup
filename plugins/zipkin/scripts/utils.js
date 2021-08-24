@@ -11,7 +11,7 @@ const Member = Symbol('utils_member')
  * @returns {k.ExpressionKind}
  * @throws
  * */
-function identifier(value) {
+function identifier (value) {
   if (n.Identifier.check(value) || n.Expression.check(value)) return value
   if (typeof value === 'string') return b.identifier(value)
   throw new Error('Invalid identifier type: ' + value)
@@ -68,7 +68,7 @@ function computedMember (klass, ...method) {
  * @throws
  * @private
  * */
-function _member(klass, methods, computed = false) {
+function _member (klass, methods, computed = false) {
   const mutatedMethods = [...methods]
 
   // Just need the initial one
@@ -100,7 +100,7 @@ function _member(klass, methods, computed = false) {
  *
  * @returns {k.ExpressionKind}
  * */
-function createFunction(method, ...argument) {
+function createFunction (method, ...argument) {
   return _method(method, [...argument])
 }
 /**
@@ -117,7 +117,7 @@ function createFunction(method, ...argument) {
  * @returns {k.ExpressionKind}
  * @throws
  * */
-function createMethod(klass, method, ...argument) {
+function createMethod (klass, method, ...argument) {
   return _method(member(klass, method), [...argument])
 }
 
@@ -134,9 +134,8 @@ function _method (method, argumentsParams) {
   return b.callExpression(method, argumentsParams)
 }
 
+function createRequire (path) {
 
-function createRequire(path) {
-  return
 }
 
 const utils = module.exports = Object.assign({}, {

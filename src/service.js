@@ -45,12 +45,11 @@ module.exports = () => {
   // or any listeners that haven't
   // been initialised yet.
   require('./utils/perf')
-  require('./utils/zipkin').initialise(config)
   require('./dao/loader')(config)
 
   // Start the server
   const networking = require('@harrytwright/networking')
-  networking.listen(require('./app')(config), config.get('port')).then(server => {
+  networking.listen(require('./app')(config), config.get('port')).then((server) => {
     log.notice('listen', 'Listening on ' + server.port)
   }).catch((error) => {
     log.error('listen', { ...error }, 'failed listen: %s', error.message)
@@ -65,7 +64,7 @@ module.exports = () => {
  *
  * @param {[string]} args
  * */
-function safe_args(args) {
+function safe_args (args) {
   const mut = [...args]
   for (let i = 0; i < mut.length; i++) {
     const key = mut[i]

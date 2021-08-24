@@ -1,11 +1,20 @@
+/**
+ * Handle the global configuration of the service
+ * */
+
 const Config = require('@harrytwright/cli-config')
 
-const {
-  version,
-  name
-} = require('../../package.json')
+const { version, name } = require('../../package.json')
 
+// This is just another way of allowing NODE_ENV's children
+// to be changed by the CLI
+//
+// could use the envMap option of `Config` tbh??
 const environment = require('./env')
+
+// Just clean up the name
+//
+// Should never be used but its a start
 const index = name.replace(/[@/]/g, '_')
 
 const defaults = {
@@ -21,8 +30,7 @@ const defaults = {
   proxy: true,
   port: 3000,
   route: '/',
-  version,
-  zipkin: true
+  version
 }
 
 const types = {
@@ -50,16 +58,17 @@ const types = {
   port: [Number, String],
   route: String,
   test: Boolean,
-  version: String,
-  zipkin: [String, Boolean]
+  version: String
 }
 
+// TODO: Add this to Config
 const shorthand = {}
 
+// Automatically add the types to the envMap, since most of these will run inside docker
+// will help set more values via `-e '...=...'` or docker-compose
 const envFromTypes = Object.keys(types).reduce((curr, key) => ({
-  ...curr,
-  [key.replace(/-/, '_').toUpperCase()]: key
-}), {})
+  ...curr, [key.replace(/-/, '_').toUpperCase()]: key
+}), { })
 
 const envMap = {
   ...envFromTypes,
@@ -74,4 +83,4 @@ const envMap = {
   ES_USER: 'elastic-username'
 }
 
-module.exports = new Config(defaults, types, envMap, {})
+module.exports = new Config(defaults, types, envMap, { })

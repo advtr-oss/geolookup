@@ -7,17 +7,14 @@ const { NotFound } = require('@hndlr/errors')
 const { trace, morgan } = require('@harrytwright/networking').middleware
 
 const log = require('./utils/log')
-const zipkin = require('./utils/zipkin')
 const reqID = require('./middleware/trace')
 const elasticErrorHandler = require('./utils/erred-elastic')
 
 /**
  * @param {Config} ctx
  * */
-module.exports = ctx => {
+module.exports = (ctx) => {
   const app = express()
-
-  app.use(zipkin.express())
 
   // For reverse proxying
   app.set('trust proxy', !!ctx.get('proxy'))
