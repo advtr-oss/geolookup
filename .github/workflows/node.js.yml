@@ -43,7 +43,7 @@ jobs:
   deploy:
     needs: build
 
-    if: "!contains(github.event.commits[0].message, '[skip ci]')"
+    if: ${{github.event != 'pull_request'}}
     runs-on: ubuntu-latest
 
     strategy:
