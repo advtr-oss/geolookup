@@ -55,7 +55,8 @@ module.exports = async (filePath, parser, opts = defaultOptions) => {
       const node = path.node
       this.traverse(path)
 
-      if (node?.expression?.callee?.object?.name === 'app' && !('middleware' in inserted)) {
+      var _node, _node$expression, _node$expression$call, _node$expression$call2;
+      if (((_node = node) === null || _node === void 0 ? void 0 : (_node$expression = _node.expression) === null || _node$expression === void 0 ? void 0 : (_node$expression$call = _node$expression.callee) === null || _node$expression$call === void 0 ? void 0 : (_node$expression$call2 = _node$expression$call.object) === null || _node$expression$call2 === void 0 ? void 0 : _node$expression$call2.name) === 'app' && !('middleware' in inserted)) {
         options.logger && options.logger(`==> Adding zipkin middleware @ ${filePath}`)
 
         path.insertBefore(
