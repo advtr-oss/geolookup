@@ -5,8 +5,12 @@ const {
   jsonEncoder: { JSON_V2 }
 } = require('zipkin')
 
+const { nanoid } = require('nanoid')
+
 const CLSContext = require('zipkin-context-cls')
 const { HttpLogger } = require('zipkin-transport-http')
+
+const initialised = Symbol('initialised')
 
 let tracer
 
@@ -41,9 +45,17 @@ class Zipkin {
         agent: new (require('http').Agent)({ keepAlive: true })
       })
     }) : new ConsoleRecorder()
+
+    this[initialised] = true
   }
 
   express () {
+    // This is for testing since we don't have a zipkin mock
+    if (!this[initialised]) return (req, res, next) => {
+      req._trace_id = { traceId: nanoid() }
+      next()
+    }
+
     return require('zipkin-instrumentation-express').expressMiddleware({ tracer: this.tracer })
   }
 

@@ -147,7 +147,7 @@ module.exports = async (filePath, parser, opts = defaultOptions) => {
                     ),
                     object.property(
                       'body',
-                      'request'
+                      identifier('request')
                     )
                   )
                 ),
