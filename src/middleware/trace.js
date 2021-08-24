@@ -1,4 +1,6 @@
+const { id } = require('@harrytwright/networking').middleware.trace
+
 module.exports = (req, res, next) => {
-  req.id = req._trace_id
+  req.id = id()
   return next()
 }
