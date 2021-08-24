@@ -32,14 +32,14 @@ COPY package*.json ./
 
 # This is just to help with running scripts
 RUN if [ -z "$PLUGIN_PATH"]; then echo "PLUGIN_PATH is not SET"; exit 1; else : ; fi
-COPY "$PLUGIN_PATH/scripts" ./scripts
+COPY "$PLUGIN_PATH" ./zipkin
 
 RUN if [ -z "$NPM_TOKEN" ]; then echo "NPM_TOKEN is not SET"; exit 1; else : ; fi
 
 RUN printf "//registry.npmjs.org/:_authToken=${NPM_TOKEN}\n" >> .npmrc && \
     npm cache verify && \
     npm install && \
-    bash ./scripts/npm-install.sh && \
+    bash ./zipkin/scripts/npm-install.sh && \
     rm -f .npmrc
 
 COPY ./src ./src
