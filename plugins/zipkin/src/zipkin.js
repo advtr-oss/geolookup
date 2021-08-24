@@ -6,6 +6,9 @@ const {
 } = require('zipkin')
 
 const { nanoid } = require('nanoid')
+const {
+  Connection
+} = require('@elastic/elasticsearch')
 
 const CLSContext = require('zipkin-context-cls')
 const { HttpLogger } = require('zipkin-transport-http')
@@ -51,15 +54,18 @@ class Zipkin {
 
   express () {
     // This is for testing since we don't have a zipkin mock
-    if (!this[initialised]) return (req, res, next) => {
-      req._trace_id = { traceId: nanoid() }
-      next()
+    if (!this[initialised]) {
+      return (req, res, next) => {
+        req._trace_id = { traceId: nanoid() }
+        next()
+      }
     }
 
     return require('zipkin-instrumentation-express').expressMiddleware({ tracer: this.tracer })
   }
 
   Connection () {
+    if (!this[initialised]) return Connection
     return require('./zipkin-connection')({ tracer: this.tracer, remoteServiceName: 'elasticsearch' })
   }
 }
