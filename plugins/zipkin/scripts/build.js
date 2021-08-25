@@ -2,13 +2,21 @@ const { promises: fs } = require('fs')
 const path = require('path')
 const espree = require('espree')
 
+const exit = (err) => {
+  console.error(err)
+  process.exit(typeof err.code === 'number' ? err.code : 1)
+}
+
 main(process.argv)
   .then(() => console.log('Built'))
-  .catch(console.error)
+  .catch(exit)
 
 async function main (args = process.argv) {
   const options = { dryRun: !!args.includes('--dry-run'), tabWidth: 2, quote: 'single' }
-  const cwd = args[args.indexOf('--working-dir') + 1] || process.cwd()
+  const docker = !!args.includes('--docker')
+
+  const workingDir = args[args.indexOf('--working-dir') + 1] || process.cwd()
+  const cwd = docker ? path.relative(__dirname, workingDir) : workingDir
 
   const parser = {
     parse: (src) => espree.parse(src, {
