@@ -1,3 +1,5 @@
+const os = require('os')
+
 const {
   Tracer,
   BatchRecorder,
@@ -23,7 +25,11 @@ class Zipkin {
       tracer = new Tracer({
         recorder: this.recorder,
         ctxImpl: new CLSContext(),
-        localServiceName: this.localService
+        localServiceName: this.localService,
+        defaultTags: {
+          // This is for when running multiple-instances
+          hostname: os.hostname()
+        }
       })
     }
 
