@@ -28,29 +28,17 @@ async function main (args = process.argv) {
     })
   }
 
-  // console.log('=> Update app.js')
-  // await require('./app')(path.join(cwd, './src/app.js'), parser, options)
-
   console.log('=> Update config/index.js')
-  // await require('./config')(path.join(cwd, './src/config/index.js'), parser, options)
+  await require('./config')(path.join(cwd, './src/config/index.js'), parser, options)
 
   console.log('=> Update dao/elastic/index.js')
   await require('./elastic')(path.join(cwd, './src/dao/loader/index.js'), parser, options)
-  //
-  // console.log('=> Update utils/perf.js')
-  // await require('./perf')(path.join(cwd, './src/utils/perf.js'), parser, options)
-  //
+
   console.log('=> Update service.js')
   await require('./service')(path.join(cwd, './src/service.js'), parser, options)
-  //
-  // console.log('=> Update trace.js')
-  // await require('./trace')(path.join(cwd, './src/middleware/trace.js'), parser, options)
 
   if (!options.dryRun) {
     console.log('=> Copy mock.js')
     await fs.copyFile(path.join(__dirname, '../src/mock.js'), path.join(cwd, './src/utils/mock.js'))
-    //
-    // console.log('=> Copy zipkin-connection.js')
-    // await fs.copyFile(path.join(__dirname, '../src/zipkin-connection.js'), path.join(cwd, './src/utils/zipkin-connection.js'))
   }
 }
