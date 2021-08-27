@@ -1,5 +1,8 @@
 # @advtr/geolookup
 
+[![Node.js CI](https://github.com/advtr-oss/geolookup/actions/workflows/node.js.yml/badge.svg)](https://github.com/advtr-oss/geolookup/actions/workflows/node.js.yml)
+[![codecov](https://codecov.io/gh/advtr-oss/geolookup/branch/main/graph/badge.svg?token=SLVA23MUD1)](https://codecov.io/gh/advtr-oss/geolookup)
+
 > This is split from [geospatial](https://github.com/advtr-oss/geospatial)
 
 ## Deployment
