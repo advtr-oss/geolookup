@@ -84,11 +84,13 @@ COPY --from=build ./src/build/src src
 COPY --from=build ./src/build/bin bin
 COPY --from=build ./src/build/node_modules node_modules
 
+RUN mkdir "$HOME/$VOLUME"
+VOLUME "$HOME/$VOLUME"
+
 USER node
 
 EXPOSE $PORT
 
 ENV NODE_ENV=production
-VOLUME $VOLUME
 
-CMD node bin/www.js --port $PORT --volume $VOLUME
+CMD node bin/www.js --port $PORT --volume "$HOME/$VOLUME"

@@ -9,6 +9,8 @@ const path = require('path')
 const glob = require('glob')
 
 module.exports = (mock, config) => {
+  process.emit('log', 'info', 'mock:loader', { cwd: config.get('volume') }, `Volume path set at ${config.get('volume')}`)
+
   const files = glob.sync('*.es.?(nd)json', {
     cwd: config.get('volume')
   }).map((file) => path.join(path.relative(process.cwd(), config.get('volume')), file))
