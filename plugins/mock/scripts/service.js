@@ -58,10 +58,12 @@ module.exports = async (filePath, parser, opts = defaultOptions) => {
   let index
   ast.program.body[0].expression.right.body.body.forEach((node, idx) => {
     if (node.type === 'ExpressionStatement' && node.expression.type === 'CallExpression') {
-      if (!!node.expression?.callee?.arguments && node.expression.callee.arguments[0]?.value === './dao/loader') {
-        node.expression.arguments.splice(0, 0, identifier('mock'))
-      } else if (!! node.expression?.arguments && node.expression?.arguments[0]?.value === './utils/perf') {
-        index = idx
+      var _node$expression, _node$expression$call, _node$expression$call2, _node$expression2, _node$expression3, _node$expression3$arg;
+
+      if (!!((_node$expression = node.expression) !== null && _node$expression !== void 0 && (_node$expression$call = _node$expression.callee) !== null && _node$expression$call !== void 0 && _node$expression$call.arguments) && ((_node$expression$call2 = node.expression.callee.arguments[0]) === null || _node$expression$call2 === void 0 ? void 0 : _node$expression$call2.value) === './dao/loader') {
+        node.expression.arguments.splice(0, 0, identifier('mock'));
+      } else if (!!((_node$expression2 = node.expression) !== null && _node$expression2 !== void 0 && _node$expression2.arguments) && ((_node$expression3 = node.expression) === null || _node$expression3 === void 0 ? void 0 : (_node$expression3$arg = _node$expression3.arguments[0]) === null || _node$expression3$arg === void 0 ? void 0 : _node$expression3$arg.value) === './utils/perf') {
+        index = idx;
       }
     }
   })
