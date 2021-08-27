@@ -64,10 +64,10 @@ module.exports = () => {
  *
  * @param {[string]} args
  * */
-function safe_args(args) {
+function safe_args (args) {
   const mut = [...args]
   for (let i = 0; i < mut.length; i++) {
-    let key = mut[i]
+    const key = mut[i]
     if (/(password|username)/.test(key) && !mut[i + 1].startsWith('--')) {
       mut[i + 1] = 'redacted'
     }

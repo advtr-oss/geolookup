@@ -49,7 +49,7 @@ const types = {
     'timing',
     'info',
     'verbose',
-    'silly',
+    'silly'
   ],
   name: String,
   'node-env': [null, String],
@@ -80,7 +80,7 @@ const envMap = {
   ELASTIC_INDEX: 'elastic-index',
   ELASTICSEARCH_INDEX: 'elastic-index',
   ES_PASS: 'elastic-password',
-  ES_USER: 'elastic-username',
+  ES_USER: 'elastic-username'
 }
 
 module.exports = new Config(defaults, types, envMap, { })
