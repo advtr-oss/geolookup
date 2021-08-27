@@ -25,7 +25,7 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
-        prefix: ['', 'zipkin']
+        prefix: ['', 'zipkin', 'mock']
 
     steps:
       - uses: actions/checkout@v2
@@ -50,7 +50,6 @@ jobs:
   deploy:
     needs: build
 
-    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
 
     strategy:
@@ -67,19 +66,18 @@ jobs:
           echo "path=./plugins/${{ matrix.prefix }}/Dockerfile" >> $GITHUB_ENV
       - name: Docker meta
         id: meta
-        uses: crazy-max/ghaction-docker-meta@v2
+        uses: docker/metadata-action@v3
         with:
           # list of Docker images to use as base name for tags
           images: |
             advtr/geolookup
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-          flavor: |
-            suffix=${{ env.prefix }}
+            type=ref,event=branch,suffix=${{ env.prefix }}
+            type=ref,event=pr,suffix=${{ env.prefix }}
+            type=semver,pattern={{version}},suffix=${{ env.prefix }}
+            type=semver,pattern={{major}}.{{minor}},suffix=${{ env.prefix }}
+            type=semver,pattern={{major}},suffix=${{ env.prefix }}
+            type=raw,value=${{ env.prefix }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -91,6 +89,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v2
+        if: github.event_name != 'pull_request'
         with:
           context: .
           file: ${{ env.path }}
