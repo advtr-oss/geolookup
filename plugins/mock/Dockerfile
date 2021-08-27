@@ -20,21 +20,33 @@ ENTRYPOINT ["/sbin/tini", "--"]
 FROM base AS build
 
 ARG NPM_TOKEN
+ARG PLUGIN_PATH
 
-RUN mkdir -p ./src/build
-WORKDIR ./src/build
+ARG WORKDIR=./src/build
+RUN mkdir -p $WORKDIR
+WORKDIR $WORKDIR
+
+# Just here to run scripts
+RUN apk add --no-cache bash
 
 COPY package*.json ./
+
+# This is just to help with running scripts
+RUN if [ -z "$PLUGIN_PATH"]; then echo "PLUGIN_PATH is not SET"; exit 1; else : ; fi
+COPY "$PLUGIN_PATH" ./plugins/mock
 
 RUN if [ -z "$NPM_TOKEN" ]; then echo "NPM_TOKEN is not SET"; exit 1; else : ; fi
 
 RUN printf "//registry.npmjs.org/:_authToken=${NPM_TOKEN}\n" >> .npmrc && \
     npm cache verify && \
     npm install && \
+    bash ./plugins/mock/scripts/npm-install.sh && \
     rm -f .npmrc
 
 COPY ./src ./src
 COPY ./bin ./bin
+
+RUN node ./plugins/mock/scripts/build.js --working-dir $WORKDIR --docker
 
 # Remove all unwanted dependancies
 # and audit the modules to check for
@@ -62,6 +74,7 @@ ENV SOURCE_BRANCH=$SOURCE_BRANCH
 ENV SOURCE_COMMIT=$SOURCE_COMMIT
 
 ENV HOME=/usr/src/app
+ENV VOLUME=/data
 ENV PORT 3000
 
 WORKDIR $HOME
@@ -76,5 +89,6 @@ USER node
 EXPOSE $PORT
 
 ENV NODE_ENV=production
+VOLUME $VOLUME
 
-CMD node bin/www.js --port $PORT
+CMD node bin/www.js --port $PORT --volume $VOLUME
