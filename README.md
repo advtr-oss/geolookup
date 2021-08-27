@@ -2,6 +2,16 @@
 
 > This is split from [geospatial](https://github.com/advtr-oss/geospatial)
 
+## Deployment
+
+### Shared Tags
+
+#### Main
+
+- `0.0.1` `0.0` `0` `main`
+- `0.0.1-zipkin` `0.0-zipkin` `0-zipkin` `main-zipkin` `zipkin`
+- `0.0.1-mock` `0.0-mock` `0-mock` `main-mock` `mock`
+
 ## API
 
 ### Lookup
