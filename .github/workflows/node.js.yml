@@ -63,6 +63,7 @@ jobs:
         if: ${{ matrix.prefix != '' }}
         run: |
           echo "prefix=-${{ matrix.prefix }}" >> $GITHUB_ENV
+          echo "plugin=./plugins/${{ matrix.prefix }}" >> $GITHUB_ENV
           echo "path=./plugins/${{ matrix.prefix }}/Dockerfile" >> $GITHUB_ENV
       - name: Docker meta
         id: meta
@@ -102,4 +103,4 @@ jobs:
             SOURCE_COMMIT=${{ github.sha }}
             SOURCE_BRANCH=${{ github.ref }}
             CI=github
-            PLUGIN_PATH=${{env.path}}
+            PLUGIN_PATH=${{env.plugin}}

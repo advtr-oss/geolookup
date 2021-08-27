@@ -32,7 +32,7 @@ RUN apk add --no-cache bash
 COPY package*.json ./
 
 # This is just to help with running scripts
-RUN if [ -z "$PLUGIN_PATH"]; then echo "PLUGIN_PATH is not SET"; exit 1; else : ; fi
+RUN if [ -z "$PLUGIN_PATH" ]; then echo "PLUGIN_PATH is not SET"; exit 1; else : ; fi
 COPY "$PLUGIN_PATH" ./plugins/mock
 
 RUN if [ -z "$NPM_TOKEN" ]; then echo "NPM_TOKEN is not SET"; exit 1; else : ; fi
