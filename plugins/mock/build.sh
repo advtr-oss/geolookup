@@ -6,4 +6,4 @@ CWD=`pwd`
 
 bash "${ROOT}/scripts/npm-install.sh"
 
-node "${ROOT}/scripts/build.js" --working-dir "${CWD}"
+node "${ROOT}/scripts/build.js" --working-dir "${CWD}" --dry-run
