@@ -105,7 +105,7 @@ function memorise(fn, deps) {
 
   return (...args) => {
     if (!dependency[fn] || dependency[fn].deps !== JSON.stringify(deps)) {
-      dependency[fn] = new Memorised(count, fn(...args), deps)
+      dependency[fn] = new Memorised(!dependency[fn]?.count ? count++ : dependency[fn]?.count, fn(...args), deps)
     }
     return dependency[fn].result
   }
