@@ -16,7 +16,10 @@ module.exports = Object.assign({}, {
       const results = await autocompleteService.search(query, location, null)
 
       return res.status(200).json({
-        status: 200,
+        meta: {
+          status: 200,
+          requestId: req.id
+        },
         results
       })
     } catch (err) {

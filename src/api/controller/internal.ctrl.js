@@ -6,6 +6,10 @@ const elasticsearch = require('../../dao/elastic')
 module.exports = Object.assign({}, {
   home: (req, res, next) => {
     return res.status(200).json({
+      meta: {
+        status: 200,
+        requestId: req.id
+      },
       name: config.get('name'),
       version: config.get('version'),
       os,
