@@ -1,0 +1,37 @@
+version: '2.4'
+
+services:
+  # The zipkin process services the UI, and also exposes a POST endpoint that
+  # instrumentation can send trace data to.
+  zipkin:
+    image: ghcr.io/openzipkin/zipkin-slim:latest
+    container_name: zipkin
+    networks:
+      - zipkin
+    ports:
+      - 9411:9411
+
+  geolookup:
+    extends:
+      file: docker-compose.yml
+      service: geolookup
+    image: advtr/geolookup:${TAG:-zipkin}
+    networks:
+      - zipkin
+      - datastore
+    depends_on:
+      - zipkin
+      - elasticsearch
+    environment:
+      - ZIPKIN=http://zipkin:9411
+
+  elasticsearch:
+    extends:
+      file: docker-compose.yml
+      service: elasticsearch
+    networks:
+      - datastore
+
+networks:
+  datastore:
+  zipkin:

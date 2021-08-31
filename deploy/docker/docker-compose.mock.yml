@@ -1,0 +1,15 @@
+version: '2.4'
+
+services:
+  geolookup:
+    extends:
+      file: docker-compose.yml
+      service: geolookup
+    image: advtr/geolookup:${TAG:-mock}
+    environment:
+      - ES_INDEX=geospatial
+    volumes:
+      - ./mocks:/usr/src/app/data
+      # Just here to make valid compose yaml
+networks:
+  datastore:
