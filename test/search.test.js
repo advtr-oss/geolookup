@@ -86,7 +86,31 @@ describe('search', function () {
     })
   })
 
-  xdescribe('country filter', function () {
+  describe('type filter', function () {
+    describe('valid type', function () {
+      it('should return a filtered result', async function () {
+        // Can't check for actual results as the returns here will be different to
+        // what es will give, see `../globals/mock.js` for why
+        const res = await chai.request(app).get('/geolookup?query=andorr&location=1,-1&type=Country')
+        expect(res).status(200)
+        expect(res.body.results).to.be.an('array').that.is.not.empty
+
+        const type = check(res.body.results, (el) => el.type)
+        expect(type).to.have.members(['Country'])
+      })
+    })
+
+    describe('invalid type', function () {
+      it('should return multiple filtered countries', async function () {
+        // Can't check for actual results as the returns here will be different to
+        // what es will give, see `../globals/mock.js` for why
+        const res = await chai.request(app).get('/geolookup?query=ha&location=1,-1&type=County')
+        expect(res).status(400)
+      })
+    })
+  })
+
+  describe('country filter', function () {
     describe('single country', function () {
       it('should return a filtered result', async function () {
         // Can't check for actual results as the returns here will be different to

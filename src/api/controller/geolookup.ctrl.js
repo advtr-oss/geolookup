@@ -10,10 +10,12 @@ module.exports = Object.assign({}, {
   },
   search: async (req, res, next) => {
     // These are handled by the validation tool
-    const { query, location, sessiontoken } = req.query
+    let { query, location, sessiontoken, country, type = ['City', 'Country'] } = req.query
+
+    type = Array.isArray(type) ? type : [type]
 
     try {
-      const results = await autocompleteService.search(query, location, null)
+      const results = await autocompleteService.search(query, location, type, country)
 
       return res.status(200).json({
         meta: {

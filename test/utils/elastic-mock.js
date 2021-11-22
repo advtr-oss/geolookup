@@ -40,6 +40,10 @@ module.exports = (mock) => {
       hits = hits.filter((hit) => params.body.query.bool.must[1].terms.country_code.includes(hit._source.country_code))
     }
 
+    if (params.body.query.bool.must[2]) {
+      hits = hits.filter((hit) => params.body.query.bool.must[2].terms.type.includes(hit._source.type))
+    }
+
     return { hits: { hits } }
   })
 }

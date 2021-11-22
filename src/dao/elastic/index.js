@@ -45,17 +45,29 @@ Elastic.prototype.connect = function (config = globalConfig) {
 
   this[_client].on('request', (err, result) => {
     const { meta } = result
-    log.verbose('elastic.emit.request', { connection: meta.connection.id, status: meta.connection.status, trace: id() }, 'starting a new request')
+    try {
+      log.verbose('elastic.emit.request', { connection: meta.connection.id, status: meta.connection.status, trace: id() }, 'starting a new request')
+    } catch (err) {
+      log.error('elastic.emit.request', err)
+    }
   })
 
   this[_client].on('response', (err, result) => {
     const { meta } = result
-    log.verbose('elastic.emit.response', { connection: meta.connection.id, status: meta.connection.status, trace: id() }, 'response received')
+    try {
+      log.verbose('elastic.emit.response', { connection: meta.connection.id, status: meta.connection.status, trace: id() }, 'response received')
+    } catch (err) {
+      log.error('elastic.emit.response', err)
+    }
   })
 
   this[_client].on('resurrect', (err, result) => {
     const { connection, request } = result
-    log.http(`elastic.emit.resurrect.${request.id}`, { connection: connection.id, status: connection.status }, 'resurrected a node')
+    try {
+      log.http(`elastic.emit.resurrect.${request.id}`, { connection: connection.id, status: connection.status }, 'resurrected a node')
+    } catch (err) {
+      log.error(`elastic.emit.resurrect.${request.id}`, err)
+    }
   })
 
   return this

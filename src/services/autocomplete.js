@@ -11,7 +11,7 @@ function Autocomplete () {}
 /**
  * Generate the search body and query the index
  * */
-Autocomplete.prototype.search = async function (input, location, country) {
+Autocomplete.prototype.search = async function (input, location, type, country) {
   if (!!country && !Array.isArray(country)) {
     country = [country]
   }
@@ -31,7 +31,7 @@ Autocomplete.prototype.search = async function (input, location, country) {
 
   const bias = elastic.helpers._geo_distance(location)
 
-  const data = await elastic.search(this._request(input, bias, countryQuery))
+  const data = await elastic.search(this._request(input, bias, type, countryQuery))
 
   const results = data.hits.map(map)
 
@@ -40,7 +40,7 @@ Autocomplete.prototype.search = async function (input, location, country) {
   return results
 }
 
-Autocomplete.prototype._request = function (input, bias, country) {
+Autocomplete.prototype._request = function (input, bias, type, country) {
   return {
     size: 5,
     track_scores: false,
@@ -54,10 +54,7 @@ Autocomplete.prototype._request = function (input, bias, country) {
           country,
           {
             terms: {
-              type: [
-                'City',
-                'Country'
-              ]
+              type
             }
           }
         ]

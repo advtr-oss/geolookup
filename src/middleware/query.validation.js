@@ -6,7 +6,7 @@ const standardiseCoordinates = require('../utils/coordinates')
 
 module.exports = Object.assign({}, {
   search: (req, res, next) => {
-    let { query, location, sessiontoken } = req.query
+    let { query, location, sessiontoken, type = ['City', 'Country'] } = req.query
 
     try {
       location = standardiseCoordinates(location)
@@ -18,6 +18,11 @@ module.exports = Object.assign({}, {
 
     if (!query || query === '' || typeof query !== 'string') {
       return next(new BadRequest('Invalid query string'))
+    }
+
+    type = Array.isArray(type) ? type : [type]
+    if (type.some((el) => !['Country', 'FirstLevelNationAdministrativeDivision', 'SecondLevelNationAdministrativeDivision', 'City'].includes(el))) {
+      return next(new BadRequest('Invalid types array, should be empty or contain valid type'))
     }
 
     next()

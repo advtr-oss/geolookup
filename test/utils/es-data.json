@@ -2,6 +2,30 @@
   {
     "_index" : "geospatial",
     "_type" : "_doc",
+    "_id" : "3041565",
+    "_score" : 11.951629,
+    "_source" : {
+      "phrase" : "Andorra",
+      "location" : {
+        "lat" : 42.5,
+        "lon" : 1.5
+      },
+      "country_code" : "AD",
+      "containers" : {
+        "entity" : {
+          "value" : "Andorra"
+        }
+      },
+      "type" : "Country"
+    },
+    "sort" : [
+      11.951629,
+      5799.83783409924
+    ]
+  },
+  {
+    "_index" : "geospatial",
+    "_type" : "_doc",
     "_id" : "1252563",
     "_score" : 6.891712,
     "_source" : {
